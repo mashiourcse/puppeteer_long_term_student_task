@@ -15,9 +15,16 @@ await page.goto('https://www.google.com/', {waitUntil: 'networkidle2'});
 await page.waitForSelector('[class="gLFyf"]')
 await page.type('[class="gLFyf"]', 'devconfbd')
 await page.click('[type="submit"]')
-await page.waitForSelector('[data-testid="result-title-a"]')
-await page.screenshot({ path: 'google_search.png'});
+await page.waitForSelector('h3')
+//await page.screenshot({ path: 'google_search.png'});
+const searchResults = await page.evaluate( ()=>{
+    const titles = Array.from(document.querySelectorAll('h3'))
+    return titles.map( title => title.textContent)
+});
 
+console.log(searchResults)
+
+await browser.close();
 // id="searchbox_input" #searchbox_input
 // [class="searchbox_searchButton__F5Bwq iconButton_button__6x_9C"]
 // [data-testid="result"] 
